@@ -1,0 +1,109 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHARA-BOT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        #chat-container p {
+            margin: 5px 0;
+        }
+        #user-input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+        #submit-btn {
+            padding: 8px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .bot-bubble {
+            background-color: #d3d3d3;
+            color: blue;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <p style="color: red;">Chiedi alla <b>SHARA!</b></p>
+    <div id="chat-log"></div>
+    <input type="text" id="user-input" placeholder="Scrivi qui...">
+    <button id="submit-btn">Invia</button>
+    <p>Se la domanda non è presente nel sistema, prova a porla in un altro modo. A volte può essere necessario non utilizzare caratteri speciali perchè non sono supportati su tutti i dispositivi.</p>
+</div>
+
+<script>
+    const chatLog = document.getElementById('chat-log');
+    const userInput = document.getElementById('user-input');
+    const submitBtn = document.getElementById('submit-btn');
+
+    submitBtn.addEventListener('click', function() {
+        const userMessage = userInput.value;
+        displayUserMessage(userMessage);
+        respondToUser(userMessage.toLowerCase());
+        userInput.value = '';
+    });
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function escapeString(str) {
+        return str.replace(/'/g, "\\'");
+    }
+
+    function displayUserMessage(message) {
+        const userBubble = document.createElement('p');
+        userBubble.textContent = `${capitalizeFirstLetter(message)}`;
+        chatLog.appendChild(userBubble);
+    }
+
+    function respondToUser(message) {
+        let response;
+        switch (message) {
+            case 'quante sono le ore minime in dormita?':
+                response = "Le ore minime in dormita sono 7.";
+                break;
+            case 'quali sono le fasce della malattia?':
+                response = "Le fasce di reperibilità sono 10-12 e 17-19.";
+                break;
+            case 'quando ho diritto ad una pausa?':
+                response = "Ho diritto a 15 minuti di pausa se la prestazione supera le 6 ore.";
+                break;
+            case 'quanti giorni di ferie ho all\'anno?':
+            case 'quanti giorni di ferie ho all anno?':
+            case 'quanti giorni di ferie ci sono in un anno?':
+                response = "20 giorni fino a 8 anni di anzianità, dopo 25 giorni.";
+                break;
+            default:
+                response = "La domanda non è attualmente presente nel mio database. Per favore contatta 3270047369 su WhatsApp così da ricevere la risposta nel più breve tempo possibile ed aiutarci a migliorare il nostro assistente virtuale.";
+        }
+        const botBubble = document.createElement('p');
+        botBubble.textContent = `${response}`;
+        botBubble.classList.add('bot-bubble');
+        chatLog.appendChild(botBubble);
+    }
+</script>
+
+</body>
+</html>
